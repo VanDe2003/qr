@@ -5,6 +5,7 @@ import LoginScreen from "./LoginScreen"; // Import trang đăng nhập từ tệ
 import HomeScreen from "./HomeScreen"; // Import trang chủ
 import RegisterScreen from "./RegisterScreen"; // Import trang đăng ký
 import QRCodeScannerScreen from "./QRCodeScannerScreen";
+import ProfileScreen from "./ProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ const AppNavigator = () => {
                 />
                 <Stack.Screen name="QRCodeScanner" component={QRCodeScannerScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

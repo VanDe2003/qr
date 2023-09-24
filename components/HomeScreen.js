@@ -1,49 +1,47 @@
 import React, {Component} from "react";
-import {View, Text, Button, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
-import {BarCodeScanner} from "expo-barcode-scanner";
+import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {FontAwesome} from "@expo/vector-icons";
 
 class HomeScreen extends Component {
-    state = {
-        hasPermission: null,
-        scanned: false,
+    handleHomeButton = () => {
+        // Xử lý sự kiện khi nhấn nút "Trang Chủ"
+        // Ví dụ: chuyển hướng đến trang chủ
+        this.props.navigation.navigate("Home");
     };
 
-    async componentDidMount() {
-        const {status} = await BarCodeScanner.requestPermissionsAsync();
-        this.setState({hasPermission: status === "granted"});
-    }
+    handleProfileButton = () => {
+        // Xử lý sự kiện khi nhấn nút "Xem Thông Tin Cá Nhân"
+        // Ví dụ: chuyển hướng đến trang thông tin cá nhân
+        this.props.navigation.navigate("Profile");
+    };
 
-    handleLogout = () => {
+    handleLogoutButton = () => {
+        // Xử lý sự kiện khi nhấn nút "Đăng Xuất"
+        // Ví dụ: đăng xuất người dùng và chuyển hướng đến trang đăng nhập
         this.props.navigation.navigate("Login");
     };
 
-    handleBarCodeScanned = ({type, data}) => {
-        this.setState({scanned: true});
-        Alert.alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    };
-
     render() {
-        const {hasPermission, scanned} = this.state;
-
-        if (hasPermission === null) {
-            return <Text>Requesting camera permission...</Text>;
-        }
-        if (hasPermission === false) {
-            return <Text>No access to camera</Text>;
-        }
-
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Trang chủ</Text>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("QRCodeScanner")} style={styles.qrButton}>
-                    <Image
-                        source={require("../images/qr-code.png")} // Thay đổi đường dẫn hình ảnh cho mã QR của bạn
-                        style={styles.qrImage}
-                    />
-                    <Text style={styles.qrText}>Quét QR Code</Text>
-                </TouchableOpacity>
-                {scanned && <Button title="Quét lại" onPress={() => this.setState({scanned: false})} />}
-                <Button title="Đăng xuất" onPress={this.handleLogout} />
+
+                <View style={styles.bottomButtons}>
+                    <TouchableOpacity style={styles.bottomButton} onPress={this.handleHomeButton}>
+                        <FontAwesome name="home" size={24} color="black" />
+                        <Text style={styles.bottomButtonText}>Trang Chủ</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.bottomButton} onPress={this.handleProfileButton}>
+                        <FontAwesome name="user" size={24} color="black" />
+                        <Text style={styles.bottomButtonText}>Thông Tin Cá Nhân</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.bottomButton} onPress={this.handleLogoutButton}>
+                        <FontAwesome name="sign-out" size={24} color="black" />
+                        <Text style={styles.bottomButtonText}>Đăng Xuất</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -60,16 +58,17 @@ const styles = StyleSheet.create({
         fontSize: 24,
         marginBottom: 20,
     },
-    qrButton: {
+    bottomButtons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
+        paddingHorizontal: 20,
+    },
+    bottomButton: {
         alignItems: "center",
     },
-    qrImage: {
-        width: 100,
-        height: 100,
-    },
-    qrText: {
-        fontSize: 16,
-        marginTop: 10,
+    bottomButtonText: {
+        marginTop: 5,
     },
 });
 
