@@ -27,7 +27,6 @@ class RegisterScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Đăng ký</Text>
                 <TextInput style={styles.input} placeholder="Tên người dùng mới" onChangeText={(newUsername) => this.setState({newUsername})} />
                 <TextInput
                     style={styles.input}
